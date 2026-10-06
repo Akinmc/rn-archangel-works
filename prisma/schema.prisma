@@ -10,6 +10,13 @@ datasource db {
 enum Role {
   ADMIN
   USER
+  PARTNER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
 }
 
 model User {
@@ -18,6 +25,7 @@ model User {
   name         String
   passwordHash String
   role         Role          @default(USER)
+  status       UserStatus    @default(PENDING)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   services     Service[]
