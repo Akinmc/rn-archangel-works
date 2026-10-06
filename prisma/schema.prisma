@@ -19,17 +19,25 @@ enum UserStatus {
   PENDING
 }
 
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
 model User {
-  id           String        @id @default(cuid())
-  email        String        @unique
-  name         String
-  passwordHash String
-  role         Role          @default(USER)
-  status       UserStatus    @default(PENDING)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  services     Service[]
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String
+  passwordHash  String
+  role          Role           @default(USER)
+  status        UserStatus     @default(PENDING)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  services      Service[]
   quoteRequests QuoteRequest[]
+  payments      Payment[]
 }
 
 model Service {
@@ -55,4 +63,21 @@ model QuoteRequest {
   createdAt   DateTime @default(now())
   userId      String?
   user        User?    @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  invoiceNumber  String        @unique
+  amount        Decimal
+  currency      String        @default("THB")
+  status        PaymentStatus @default(PENDING)
+  paymentMethod String
+  customerName  String
+  customerEmail String
+  reference     String?
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  userId        String?
+  user          User?         @relation(fields: [userId], references: [id])
 }

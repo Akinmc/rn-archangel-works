@@ -5,7 +5,8 @@ export type SessionUser = {
   id: string;
   email: string;
   name: string;
-  role: 'ADMIN' | 'USER';
+  role: 'ADMIN' | 'USER' | 'PARTNER';
+  status?: 'ACTIVE' | 'INACTIVE' | 'PENDING';
 };
 
 const JWT_SECRET = process.env.JWT_SECRET || 'change-me-in-production';
