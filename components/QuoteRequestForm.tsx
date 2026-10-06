@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 
 export function QuoteRequestForm() {
   const [status, setStatus] = useState<string | null>(null);
@@ -11,23 +11,28 @@ export function QuoteRequestForm() {
     details: '',
   });
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setStatus('กำลังส่งข้อมูล...');
 
-    const response = await fetch('/api/quote-requests', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
+    try {
+      const response = await fetch('/api/quote-requests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
 
-    if (!response.ok) {
-      setStatus('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง');
-      return;
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'เกิดข้อผิดพลาด');
+      }
+
+      setStatus('✅ ส่งข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับเร็ว ๆ นี้');
+      setForm({ name: '', phone: '', serviceType: '', details: '' });
+      setTimeout(() => setStatus(null), 5000);
+    } catch (error) {
+      setStatus('❌ ' + (error instanceof Error ? error.message : 'เกิดข้อผิดพลาด'));
     }
-
-    setStatus('ส่งข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับเร็วที่สุด');
-    setForm({ name: '', phone: '', serviceType: '', details: '' });
   };
 
   return (
@@ -36,17 +41,19 @@ export function QuoteRequestForm() {
         <label className="block">
           <span className="mb-1 block text-sm font-medium text-slate-700">ชื่อ-นามสกุล *</span>
           <input
+            type="text"
             required
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 outline-none focus:border-rn"
-            placeholder="กรอกชื่อของคุณ"
+            placeholder="กรุณากรอกชื่อของคุณ"
           />
         </label>
 
         <label className="block">
           <span className="mb-1 block text-sm font-medium text-slate-700">เบอร์โทรศัพท์ *</span>
           <input
+            type="tel"
             required
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -65,10 +72,10 @@ export function QuoteRequestForm() {
           className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 outline-none focus:border-rn"
         >
           <option value="">-- เลือกประเภท --</option>
-          <option value="ก่อสร้าง-ออกแบบ">🏗️ ก่อสร้าง-ออกแบบ</option>
-          <option value="ปรึกษาการลงทุน">📊 ปรึกษาการลงทุน</option>
-          <option value="สื่อ-พื้นที่โฆษณา">📱 สื่อ-พื้นที่โฆษณา</option>
-          <option value="ร่วมเป็นพาร์ทเนอร์">🤝 ร่วมเป็นพาร์ทเนอร์</option>
+          <option value="🏗️ ก่อสร้าง-ออกแบบ">🏗️ ก่อสร้าง-ออกแบบ</option>
+          <option value="📊 ปรึกษาการลงทุน">📊 ปรึกษาการลงทุน</option>
+          <option value="📱 พื้นที่โฆษณา/ข่าวสาร">📱 พื้นที่โฆษณา/ข่าวสาร</option>
+          <option value="🤝 ร่วมเป็นพาร์ทเนอร์">🤝 ร่วมเป็นพาร์ทเนอร์</option>
         </select>
       </label>
 
@@ -79,15 +86,21 @@ export function QuoteRequestForm() {
           value={form.details}
           onChange={(e) => setForm({ ...form, details: e.target.value })}
           className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 outline-none focus:border-rn"
-          placeholder="ขนาดพื้นที่ งบประมาณ รายละเอียดที่ต้องการ"
+          placeholder="ขนาด พื้นที่ งบประมาณโดยประมาณ สิ่งที่ต้องการ..."
         />
       </label>
 
-      <button type="submit" className="rounded-xl bg-rn px-5 py-3 font-semibold text-white hover:bg-blue-900">
-        ส่งข้อมูลเพื่อเสนอราคา
+      <button type="submit" className="w-full rounded-xl bg-rn px-5 py-3 font-semibold text-white hover:bg-blue-900">
+        📤 ส่งข้อมูลเพื่อเสนอราคา
       </button>
 
-      {status && <p className="text-sm text-slate-600">{status}</p>}
+      {status && (
+        <div className={`rounded-lg p-3 text-sm ${
+          status.startsWith('✅') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+        }`}>
+          {status}
+        </div>
+      )}
     </form>
   );
 }

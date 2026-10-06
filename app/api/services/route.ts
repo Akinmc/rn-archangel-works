@@ -1,27 +1,47 @@
 import { NextResponse } from 'next/server';
-import { getServices, saveServices } from '@/lib/data';
+import { prisma } from '@/lib/prisma';
+import { getSessionUserFromRequest } from '@/lib/auth';
 
 export async function GET() {
-  const services = await getServices();
-  return NextResponse.json(services);
+  try {
+    const services = await prisma.service.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
+    return NextResponse.json(services);
+  } catch (error) {
+    return NextResponse.json({ error: 'ไม่สามารถดึงข้อมูลบริการได้' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
-  const payload = await request.json();
-  const services = await getServices();
+  try {
+    const user = getSessionUserFromRequest(request);
+    if (!user || user.role !== 'ADMIN') {
+      return NextResponse.json({ error: 'ไม่มีสิทธิ์' }, { status: 403 });
+    }
 
-  const newService = {
-    id: payload.code || `RN-${Date.now()}`,
-    code: payload.code || `RN-${Date.now()}`,
-    category: payload.category || 'สินค้าอื่นๆ',
-    title: payload.title || 'บริการใหม่',
-    priceLabel: payload.priceLabel || 'ราคาตามตกลง',
-    description: payload.description || '',
-    notes: payload.notes || 'ข้อมูลเพิ่มเติม',
-  };
+    const body = await request.json();
+    const { code, category, title, priceLabel, description, notes } = body;
 
-  const updated = [...services, newService];
-  await saveServices(updated);
+    if (!code || !category || !title) {
+      return NextResponse.json({ error: 'กรุณากรอกข้อมูลจำเป็น' }, { status: 400 });
+    }
 
-  return NextResponse.json(newService, { status: 201 });
+    const service = await prisma.service.create({
+      data: {
+        code,
+        category,
+        title,
+        priceLabel,
+        description,
+        notes,
+        createdById: user.id,
+      },
+    });
+
+    return NextResponse.json(service, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'ไม่สามารถสร้างบริการได้' }, { status: 500 });
+  }
 }
