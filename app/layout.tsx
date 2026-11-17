@@ -3,13 +3,14 @@ import './globals.css';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Procurement Insight | ติดตามงานภาครัฐชายแดนใต้',
-  description: 'แนวคิดแพลตฟอร์มสำหรับค้นหาและติดตามงานภาครัฐและการจัดซื้อจัดจ้างในจังหวัดนราธิวาส ปัตตานี และยะลา พร้อมแดชบอร์ดทดลองใช้งาน',
+  title: 'Rn Archangel Works | Procurement Insight',
+  description: 'ระบบจัดการข้อมูลและติดตามงานภาครัฐสำหรับจังหวัดนราธิวาส ปัตตานี และยะลา',
 };
 
 const navItems = [
   { href: '/', label: 'หน้าแรก' },
   { href: '/procurement-demo', label: 'แดชบอร์ดทดลอง' },
+  { href: '/pricing', label: 'แผนใช้งาน' },
   { href: '/services', label: 'สินค้า & บริการ' },
   { href: '/partner', label: 'พาร์ทเนอร์' },
   { href: '/contact', label: 'ติดต่อ' },
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded-full px-3 py-2 text-sm font-medium transition hover:bg-rn/5 hover:text-rn ${item.href === '/procurement-demo' ? 'bg-blue-50 text-blue-900' : 'text-slate-600'}`}
+                className={`rounded-full px-3 py-2 text-sm font-medium transition hover:bg-rn/5 hover:text-rn ${item.href === '/procurement-demo' || item.href === '/pricing' ? 'bg-blue-50 text-blue-900' : 'text-slate-600'}`}
               >
                 {item.label}
               </Link>
