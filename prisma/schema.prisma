@@ -55,19 +55,24 @@ model Service {
 }
 
 model QuoteRequest {
-  id          String   @id @default(cuid())
-  name        String
-  phone       String
-  serviceType String
-  details     String
-  createdAt   DateTime @default(now())
-  userId      String?
-  user        User?    @relation(fields: [userId], references: [id])
+  id               String   @id @default(cuid())
+  name             String
+  phone            String
+  email            String?
+  company          String?
+  preferredChannel String?
+  source           String?
+  consentAt        DateTime?
+  serviceType      String
+  details          String
+  createdAt        DateTime @default(now())
+  userId           String?
+  user             User?    @relation(fields: [userId], references: [id])
 }
 
 model Payment {
   id            String        @id @default(cuid())
-  invoiceNumber  String        @unique
+  invoiceNumber String        @unique
   amount        Decimal
   currency      String        @default("THB")
   status        PaymentStatus @default(PENDING)
