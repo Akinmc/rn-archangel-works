@@ -1,0 +1,6 @@
+// Add the following optional fields to the existing QuoteRequest model in prisma/schema.prisma:
+// email String?
+// company String?
+// preferredChannel String?
+// source String?
+// consentAt DateTime?

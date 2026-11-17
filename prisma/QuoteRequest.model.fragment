@@ -1,0 +1,17 @@
+// Existing quote requests are also used as inbound business leads.
+// These nullable fields keep existing rows compatible while capturing channel attribution.
+model QuoteRequest {
+  id                String   @id @default(cuid())
+  name              String
+  phone             String
+  email             String?
+  company           String?
+  preferredChannel  String?
+  source            String?
+  consentAt         DateTime?
+  serviceType       String
+  details           String
+  createdAt         DateTime @default(now())
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id])
+}

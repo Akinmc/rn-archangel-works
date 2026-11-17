@@ -3,58 +3,26 @@ import './globals.css';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Rn Archangel Works | Procurement Insight',
-  description: 'ระบบจัดการข้อมูลและติดตามงานภาครัฐสำหรับจังหวัดนราธิวาส ปัตตานี และยะลา',
+  title: 'Procurement Insight | Rn Archangel Works',
+  description: 'แพลตฟอร์มติดตามและจัดระเบียบข้อมูลงานภาครัฐสำหรับผู้ประกอบการและทีมธุรกิจในจังหวัดชายแดนใต้',
 };
 
 const navItems = [
   { href: '/', label: 'หน้าแรก' },
-  { href: '/procurement-demo', label: 'แดชบอร์ดทดลอง' },
-  { href: '/pricing', label: 'แผนใช้งาน' },
-  { href: '/services', label: 'สินค้า & บริการ' },
-  { href: '/partner', label: 'พาร์ทเนอร์' },
-  { href: '/contact', label: 'ติดต่อ' },
-  { href: '/admin', label: 'จัดการระบบ' },
+  { href: '/procurement-demo', label: 'ทดลองใช้' },
+  { href: '/pricing', label: 'แพ็กเกจธุรกิจ' },
+  { href: '/faq', label: 'คำถามที่พบบ่อย' },
+  { href: '/contact', label: 'ติดต่อเรา' },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="th">
       <body>
-        <header className="bg-rn text-white shadow-md">
-          <div className="section-shell flex items-center justify-between py-4">
-            <div>
-              <div className="text-xl font-bold">Rn Archangel Works</div>
-              <div className="text-xs text-slate-200">สร้างมาตรฐาน • สร้างความไว้วางใจ • สร้างคุณค่าที่ยั่งยืน</div>
-            </div>
-            <div className="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-medium">
-              v.03102569
-            </div>
-          </div>
-        </header>
-
-        <nav className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
-          <div className="section-shell flex flex-wrap gap-2 py-3">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`rounded-full px-3 py-2 text-sm font-medium transition hover:bg-rn/5 hover:text-rn ${item.href === '/procurement-demo' || item.href === '/pricing' ? 'bg-blue-50 text-blue-900' : 'text-slate-600'}`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </nav>
-
+        <header className="bg-rn text-white shadow-md"><div className="section-shell flex items-center justify-between py-4"><div><Link href="/" className="text-xl font-bold">Procurement Insight</Link><div className="text-xs text-slate-200">โดย Rn Archangel Works</div></div><Link href="/contact?source=header#inquiry" className="hidden rounded-xl bg-white px-4 py-2 text-sm font-bold text-rn transition hover:bg-blue-50 sm:inline-flex">ขอทดลองใช้งาน</Link></div></header>
+        <nav className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur"><div className="section-shell flex flex-wrap gap-2 py-3">{navItems.map((item) => <Link key={item.href} href={item.href} className="rounded-full px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-rn/5 hover:text-rn">{item.label}</Link>)}</div></nav>
         <main>{children}</main>
-
-        <footer className="mt-16 bg-slate-900 py-8 text-white">
-          <div className="section-shell text-center text-sm text-slate-300">
-            <p className="mb-2 font-medium text-white">Rn Archangel Works — สร้างมาตรฐาน สร้างความไว้วางใจ</p>
-            <p>© 2569 ทุกสิทธิ์สงวนไว้ | ดำเนินงานตามหลักกฎหมายและจริยธรรม</p>
-          </div>
-        </footer>
+        <footer className="mt-16 bg-slate-900 py-8 text-white"><div className="section-shell text-center text-sm text-slate-300"><p className="mb-2 font-medium text-white">Procurement Insight — ข้อมูลสาธารณะ เพื่อการตัดสินใจที่มีข้อมูลประกอบ</p><p>© 2569 Rn Archangel Works | ใช้ข้อมูลสาธารณะหรือข้อมูลที่ได้รับอนุญาตเท่านั้น</p><div className="mt-3 flex justify-center gap-4"><Link href="/faq" className="hover:text-white">FAQ</Link><Link href="/contact" className="hover:text-white">ติดต่อ</Link></div></div></footer>
       </body>
     </html>
   );
