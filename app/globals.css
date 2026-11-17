@@ -35,3 +35,72 @@ textarea,
 button {
   font: inherit;
 }
+
+/* Refined visual treatment for the procurement dashboard demo. */
+main.min-h-screen.bg-slate-50.text-slate-900 {
+  background:
+    radial-gradient(ellipse at 82% 0%, rgba(219, 234, 254, 0.62), transparent 34rem),
+    #f6f8fc;
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 > div:first-child {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-color: rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  backdrop-filter: blur(16px);
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 > div:first-child > div > a > span:first-child {
+  background: linear-gradient(145deg, #1d4ed8, #172554);
+  box-shadow: 0 8px 18px rgba(30, 64, 175, 0.2);
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 > div:last-of-type > div:first-child {
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 22px rgba(146, 64, 14, 0.06);
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 article,
+main.min-h-screen.bg-slate-50.text-slate-900 form,
+main.min-h-screen.bg-slate-50.text-slate-900 section.rounded-2xl,
+main.min-h-screen.bg-slate-50.text-slate-900 section.overflow-hidden {
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.045);
+  transition: box-shadow 180ms ease, border-color 180ms ease;
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 article:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.075);
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 input:focus,
+main.min-h-screen.bg-slate-50.text-slate-900 select:focus,
+main.min-h-screen.bg-slate-50.text-slate-900 button:focus-visible,
+main.min-h-screen.bg-slate-50.text-slate-900 a:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 table thead {
+  background: #f8fafc;
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 table tbody tr {
+  transition: background-color 150ms ease;
+}
+
+main.min-h-screen.bg-slate-50.text-slate-900 table tbody tr:hover {
+  background: #f8fbff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main.min-h-screen.bg-slate-50.text-slate-900 *,
+  main.min-h-screen.bg-slate-50.text-slate-900 *::before,
+  main.min-h-screen.bg-slate-50.text-slate-900 *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
